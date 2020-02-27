@@ -97,8 +97,8 @@ are likely to peak for individuals during their 40s.
     Data %>%
      filter(!is.na(h_payn_dv), !is.na(placeBorn), !is.na(sex_dv)) %>%
      group_by(placeBorn, sex_dv) %>%
-     summarise(meanPAY = mean(h_payn_dv, na.rm = TRUE)) %>%
-     ggplot(aes(x = sex_dv, y = meanPAY)) +
+     summarise(medianPAY = median(h_payn_dv, na.rm = TRUE)) %>%
+     ggplot(aes(x = sex_dv, y = medianPAY)) +
      geom_bar(stat = "identity") +
      facet_wrap(~ placeBorn, nrow = 3) +
      labs(x = "Sex", y = "Median monthly net pay")
@@ -108,8 +108,8 @@ are likely to peak for individuals during their 40s.
 
 Interpretation: These charts again suggest that regardless of place of
 birth, males have a higher median monthly net pay than females. They
-also demonstrate that Ireland has the highest median monthly net pay
-whilst Pakistan have the lowest.
+also demonstrate that Irish born have the highest median monthly net pay
+whilst Bangladeshi born have the lowest.
 
 4.  Heat map (20 points)
     
