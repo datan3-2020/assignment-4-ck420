@@ -64,76 +64,68 @@ Data <- Data %>%
 
 Reproduce the following graphs as close as you can. For each graph, write two sentences (not more!) describing its main message.  
 
-1. Univariate distribution (20 points).
-
+1. Univariate distribution (20 points)
     ```{r}
 Data %>%
-    ggplot(aes(x = h_payn_dv)) +
-        geom_freqpoly() +
-        labs(x = "Net monthly pay",
-             y = "Number of respondents")
+     ggplot(aes(x = h_payn_dv)) +
+     geom_freqpoly() +
+     labs(x = "Net monthly pay",
+          y = "Number of respondents")
     ```
-** INTERPRETATION HERE **
 
-2. Line chart (20 points). The lines show the non-parametric association between age and monthly earnings for men and women.
+Interpretation: We can see from this graph that the majority of respondents had a net monthly pay of between 0 and 3000. It is also slightly skewed to the right. 
 
+2. Line chart (20 points) The lines show the non-parametric association between age and monthly earnings for men and women.
     ```{r}
     Data %>%
-        ggplot(aes(x = h_age_dv, y = h_payn_dv, linetype = sex_dv)) + geom_smooth(colour = "black") + coord_cartesian(xlim = c(15, 65), ylim = c(0, 2250)) +
-scale_y_continuous(breaks = seq(500, 2000, by = 500)) +
-labs(x = "Age",
+        ggplot(aes(x = h_age_dv, y = h_payn_dv, linetype =       sex_dv)) + 
+        geom_smooth(colour = "black") + coord_cartesian(xlim = c(15, 65), ylim = c(0, 2250)) +
+        scale_y_continuous(breaks = seq(500, 2000, by = 500)) +
+        labs(x = "Age",
              y = "Monthly earnings", 
-     linetype = "Sex")
+        linetype = "Sex")
     ```
-** INTERPRETATION HERE **
 
-3. Faceted bar chart (20 points).
+Interpretation: This chart suggests that males on average have a higher monthly earning than females. It also demonstrates that monthly earnings are likely to peak for individuals during their 40s. 
 
+3. Faceted bar chart (20 points)
     ```{r}
-    
-    Data %>%
-        filter(!is.na(h_payn_dv), !is.na(placeBorn), !is.na(sex_dv)) %>%
-        group_by(placeBorn, sex_dv) %>%
-        summarise(meanPAY = mean(h_payn_dv, na.rm = TRUE)) %>%
-        ggplot(aes(x = sex_dv, y = meanPAY)) +
-        geom_bar(stat = "identity") +
-        facet_wrap(~ placeBorn, nrow = 3) +
-        labs(x = "Sex", y = "Median monthly net pay")
-        
-        
- 
+Data %>%
+     filter(!is.na(h_payn_dv), !is.na(placeBorn), !is.na(sex_dv)) %>%
+     group_by(placeBorn, sex_dv) %>%
+     summarise(meanPAY = mean(h_payn_dv, na.rm = TRUE)) %>%
+     ggplot(aes(x = sex_dv, y = meanPAY)) +
+     geom_bar(stat = "identity") +
+     facet_wrap(~ placeBorn, nrow = 3) +
+     labs(x = "Sex", y = "Median monthly net pay")
     ```
-** INTERPRETATION HERE **
 
-4. Heat map (20 points).
+Interpretation: These charts again suggest that regardless of place of birth, males have a higher median monthly net pay than females. They also demonstrate that Ireland has the highest median monthly net pay whilst Pakistan have the lowest. 
 
+4. Heat map (20 points)
     ```{r}
     Data %>% 
         filter(!is.na(placeBorn), !is.na(h_gor_dv)) %>%
         group_by(placeBorn, h_gor_dv) %>%
         summarise(meanAGE = mean(h_age_dv, na.rm = TRUE)) %>%
-        ggplot(aes(x = h_gor_dv, y = placeBorn)) + geom_tile(aes(fill = meanAGE)) +
+        ggplot(aes(x = h_gor_dv, y = placeBorn)) +    
+        geom_tile(aes(fill = meanAGE)) +
         theme_classic() + 
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         coord_equal() +
         labs(x = "Region", y = "Country of birth", fill = "Mean age")
     ```
-** INTERPRETATION HERE **
 
-5. Population pyramid (20 points).
+Interpretation: This heat map shows that the mean age is consistent for UK born individuals across all regions. The youngest mean age is Nigerians living in Scotland whilst the oldest mean age is Jamaicans living in Scotland.
 
+5. Population pyramid (20 points)
     ```{r}
-
 ggplot(data = Data, aes(x = h_age_dv, fill = sex_dv)) + 
-  geom_bar(data = dplyr::filter(Data, sex_dv == "female")) + 
-  geom_bar(data = dplyr::filter(Data, sex_dv == "male"), aes(y = ..count.. * (-1))) + 
+geom_bar(data = dplyr::filter(Data, sex_dv == "female")) + 
+geom_bar(data = dplyr::filter(Data, sex_dv == "male"), aes(y =    ..count.. * (-1))) + 
 scale_fill_brewer(palette = "Set1") +
-  coord_flip() +
-  labs(x = "Age", y = "n", fill = "Sex")
-
-
-    
-
-    
+coord_flip() +
+labs(x = "Age", y = "n", fill = "Sex")
     ```
-** INTERPRETATION HERE **
+
+Interpretation: This pyramid suggests that there were more female respondents during this wave. It also shows that the distribution of age between the sexes is consistent. 
